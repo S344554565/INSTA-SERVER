@@ -1,7 +1,6 @@
 {
   "name": "insta-24-7-sender",
   "version": "1.0.0",
-  "description": "Instagram 24/7 Message Sender Panel by MR SURAJ",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
