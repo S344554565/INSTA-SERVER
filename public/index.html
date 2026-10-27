@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insta 24/7 Sender - MR SURAJ</title>
+    <style>
+        body {
+            background-color: #0d0d0d;
+            color: #ffffff;
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .panel {
+            background-color: #141414;
+            padding: 25px 30px;
+            border-radius: 15px;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 0 25px rgba(0, 255, 204, 0.1);
+            border: 1px solid #2a2a2a;
+            position: relative;
+        }
+        .header {
+            text-align: center;
+            font-size: 22px;
+            letter-spacing: 3px;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+        .owner-tag {
+            text-align: center;
+            font-size: 12px;
+            color: #00ffcc;
+            margin-bottom: 25px;
+            letter-spacing: 2px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        .logo {
+            display: block;
+            margin: 0 auto 15px;
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            border: 2px solid #00ffcc;
+            box-shadow: 0 0 15px #00ffcc, 0 0 30px rgba(255, 0, 255, 0.5);
+            object-fit: cover;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 13px;
+            color: #b3b3b3;
+        }
+        textarea, input[type="text"], input[type="number"], input[type="file"] {
+            width: 100%;
+            background-color: #050505;
+            color: #00ffcc;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 18px;
+            font-family: 'Courier New', Courier, monospace;
+            box-sizing: border-box;
+            outline: none;
+            transition: 0.3s;
+        }
+        textarea:focus, input:focus {
+            border-color: #00ffcc;
+            box-shadow: 0 0 10px rgba(0, 255, 204, 0.2);
+        }
+        textarea {
+            height: 80px;
+            resize: none;
+        }
+        .row {
+            display: flex;
+            gap: 15px;
+        }
+        .col {
+            flex: 1;
+        }
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        button {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            font-family: 'Courier New', Courier, monospace;
+            transition: 0.3s;
+        }
+        .btn-start {
+            background-color: #00e676;
+            color: #000;
+            box-shadow: 0 0 15px rgba(0, 230, 118, 0.4);
+        }
+        .btn-start:hover {
+            background-color: #00c853;
+            box-shadow: 0 0 25px rgba(0, 230, 118, 0.6);
+        }
+        .btn-stop {
+            background-color: #d32f2f;
+            color: #fff;
+            box-shadow: 0 0 15px rgba(211, 47, 47, 0.4);
+        }
+        .btn-stop:hover {
+            background-color: #b71c1c;
+            box-shadow: 0 0 25px rgba(211, 47, 47, 0.6);
+        }
+        .status {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 13px;
+            font-weight: bold;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 11px;
+            color: #555;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="panel">
+        <!-- Aapka Logo (URL change kar sakte hain) -->
+        <img src="https://via.placeholder.com/110/141414/00ffcc?text=MR+SURAJ" alt="Logo" class="logo">
+        
+        <div class="header">INSTA 24/7 SENDER</div>
+        <div class="owner-tag">👑 OWNER: MR SURAJ 👑</div>
+
+        <label>🍪 Instagram Cookies (sessionid=...)</label>
+        <textarea id="cookies" placeholder="sessionid=...;&#10;ds_user_id=...;&#10;csrftoken=...;"></textarea>
+
+        <div class="row">
+            <div class="col">
+                <label>👥 Thread ID (Group ya Chat)</label>
+                <input type="text" id="threadId" placeholder="e.g. 178473">
+            </div>
+            <div class="col">
+                <label>⏱️ Time Delay (Seconds)</label>
+                <input type="number" id="timeDelay" value="20">
+            </div>
+        </div>
+
+        <label>🏷️ Here Name (Upar dikhega)</label>
+        <input type="text" id="hereName" placeholder="I am here" value="I am here">
+
+        <label>📁 Upload Message File (.txt)</label>
+        <input type="file" id="messageFile" accept=".txt">
+
+        <div class="btn-group">
+            <button class="btn-start" onclick="startServer()">▶ START 24/7</button>
+            <button class="btn-stop" onclick="stopServer()">⏹ STOP SERVER</button>
+        </div>
+
+        <div id="statusMsg" class="status"></div>
+        <div class="footer">Powered by MR SURAJ</div>
+    </div>
+
+    <script>
+        async function startServer() {
+            const statusDiv = document.getElementById('statusMsg');
+            statusDiv.style.color = "#ffeb3b";
+            statusDiv.style.backgroundColor = "rgba(255, 235, 59, 0.1)";
+            statusDiv.innerText = "Starting server... Please wait.";
+
+            const formData = new FormData();
+            formData.append('cookies', document.getElementById('cookies').value);
+            formData.append('threadId', document.getElementById('threadId').value);
+            formData.append('timeDelay', document.getElementById('timeDelay').value);
+            formData.append('hereName', document.getElementById('hereName').value);
+            
+            const fileInput = document.getElementById('messageFile');
+            if (fileInput.files.length > 0) {
+                formData.append('messageFile', fileInput.files[0]);
+            }
+
+            try {
+                const response = await fetch('/api/start', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await response.json();
+
+                if (response.ok) {
+                    statusDiv.style.color = "#00e676";
+                    statusDiv.style.backgroundColor = "rgba(0, 230, 118, 0.1)";
+                    statusDiv.innerText = "✅ " + data.message;
+                } else {
+                    statusDiv.style.color = "#ff5252";
+                    statusDiv.style.backgroundColor = "rgba(255, 82, 82, 0.1)";
+                    statusDiv.innerText = "❌ Error: " + data.error;
+                }
+            } catch (err) {
+                statusDiv.style.color = "#ff5252";
+                statusDiv.style.backgroundColor = "rgba(255, 82, 82, 0.1)";
+                statusDiv.innerText = "❌ Server connection failed.";
+            }
+        }
+
+        async function stopServer() {
+            const statusDiv = document.getElementById('statusMsg');
+            try {
+                const response = await fetch('/api/stop', { method: 'POST' });
+                const data = await response.json();
+                statusDiv.style.color = "#ff5252";
+                statusDiv.style.backgroundColor = "rgba(255, 82, 82, 0.1)";
+                statusDiv.innerText = "⏹ " + data.message;
+            } catch (err) {
+                statusDiv.style.color = "#ff5252";
+                statusDiv.innerText = "❌ Failed to stop server.";
+            }
+        }
+    </script>
+</body>
+</html>
